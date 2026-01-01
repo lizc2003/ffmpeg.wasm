@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile-upstream:master-labs
 
 # Base emsdk image with environment variables.
-FROM emscripten/emsdk:3.1.40 AS emsdk-base
+FROM emscripten/emsdk:3.1.74 AS emsdk-base
 ARG EXTRA_CFLAGS
 ARG EXTRA_LDFLAGS
 ARG FFMPEG_ST
 ARG FFMPEG_MT
 ENV INSTALL_DIR=/opt
 # We cannot upgrade to n6.0 as ffmpeg bin only supports multithread at the moment.
-ENV FFMPEG_VERSION=n5.1.4
+ENV FFMPEG_VERSION=n5.1.8
 ENV CFLAGS="-I$INSTALL_DIR/include $CFLAGS $EXTRA_CFLAGS"
 ENV CXXFLAGS="$CFLAGS"
 ENV LDFLAGS="-L$INSTALL_DIR/lib $LDFLAGS $CFLAGS $EXTRA_LDFLAGS"
@@ -25,13 +25,6 @@ FROM emsdk-base AS x264-builder
 ENV X264_BRANCH=4-cores
 ADD https://github.com/ffmpegwasm/x264.git#$X264_BRANCH /src
 COPY build/x264.sh /src/build.sh
-RUN bash -x /src/build.sh
-
-# Build x265
-FROM emsdk-base AS x265-builder
-ENV X265_BRANCH=3.4
-ADD https://github.com/ffmpegwasm/x265.git#$X265_BRANCH /src
-COPY build/x265.sh /src/build.sh
 RUN bash -x /src/build.sh
 
 # Build libvpx
@@ -137,7 +130,6 @@ FROM emsdk-base AS ffmpeg-base
 RUN embuilder build sdl2 sdl2-mt
 ADD https://github.com/FFmpeg/FFmpeg.git#$FFMPEG_VERSION /src
 COPY --from=x264-builder $INSTALL_DIR $INSTALL_DIR
-COPY --from=x265-builder $INSTALL_DIR $INSTALL_DIR
 COPY --from=libvpx-builder $INSTALL_DIR $INSTALL_DIR
 COPY --from=lame-builder $INSTALL_DIR $INSTALL_DIR
 COPY --from=opus-builder $INSTALL_DIR $INSTALL_DIR
@@ -151,20 +143,21 @@ COPY --from=zimg-builder $INSTALL_DIR $INSTALL_DIR
 FROM ffmpeg-base AS ffmpeg-builder
 COPY build/ffmpeg.sh /src/build.sh
 RUN bash -x /src/build.sh \
-      --enable-gpl \
-      --enable-libx264 \
-      --enable-libx265 \
-      --enable-libvpx \
-      --enable-libmp3lame \
-      --enable-libtheora \
-      --enable-libvorbis \
-      --enable-libopus \
-      --enable-zlib \
-      --enable-libwebp \
-      --enable-libfreetype \
-      --enable-libfribidi \
-      --enable-libass \
-      --enable-libzimg 
+   --disable-avdevice \
+   --disable-postproc \
+   --disable-network \
+   --disable-everything \
+   --enable-libmp3lame \
+   --enable-libvorbis \
+   --enable-parser=aac,vorbis,flac,opus \
+   --enable-demuxer=mov,flv,wav,mp3,flac,ogg,aac,matroska \
+   --enable-muxer=wav,mp3 \
+   --enable-encoder=pcm_s16le,libmp3lame \
+   --enable-decoder=pcm_s16le,aac,mp3,flac,vorbis,opus \
+   --enable-filters \
+   --enable-filter=aresample \
+   --enable-protocol=file
+
 
 # Build ffmpeg.wasm
 FROM ffmpeg-builder AS ffmpeg-wasm-builder
@@ -174,7 +167,6 @@ COPY build/ffmpeg-wasm.sh build.sh
 # libraries to link
 ENV FFMPEG_LIBS \
       -lx264 \
-      -lx265 \
       -lvpx \
       -lmp3lame \
       -logg \
