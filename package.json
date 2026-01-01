@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "ffmpeg-root",
   "private": true,
   "scripts": {
     "lint": "npm-run-all lint:*",
