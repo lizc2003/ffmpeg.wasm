@@ -280,7 +280,7 @@ const initFFmpeg = async () => {
     });
 
     // Load FFmpeg
-    loadFFmpegObject(ffmpeg);
+    await loadFFmpegObject(ffmpeg);
     
     ffmpegStatus.value = 'ready';
     logMessage.value = 'FFmpeg is ready. You can start conversion now.';

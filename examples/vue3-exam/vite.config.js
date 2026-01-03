@@ -17,19 +17,15 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: [
-      '@ffmpeg/ffmpeg',
-      '@ffmpeg/core',
-      '@ffmpeg/util',
+      ...(process.env.NODE_ENV === 'development' ? [
+        '@ffmpeg/ffmpeg',
+      ] : [])
     ],
   },
   build: {
     assetsDir: 'static',
   },
-
   server: {
     port: 3000,
-    hmr: {
-      overlay: false,
-    },
   },
 })
