@@ -221,6 +221,7 @@
 import { ref, onMounted } from 'vue';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
+import ffmpegConfig from 'virtual:ffmpeg-config';
 
 // Reactive data
 const selectedFile = ref(null);
@@ -240,25 +241,10 @@ const bitrate = ref('192');
 const samplingRate = ref('44100');
 
 const loadFFmpegObject = async (ffmpegObj) => {
-  const jsURL = '/static/ffmpeg-core.2fe377bd.js';
-  const wasmURL = '/static/ffmpeg-core.9d8732b4.wasm';
-
-  //console.log(import.meta.env);
-  if (import.meta.env.DEV) {
-    const jsResponse = await fetch(jsURL)
-    const jsURL2 = URL.createObjectURL(await jsResponse.blob())
-    const wasmResponse = await fetch(wasmURL)
-    const wasmURL2 = URL.createObjectURL(await wasmResponse.blob())
-    await ffmpegObj.load({
-        coreURL: jsURL2,
-        wasmURL: wasmURL2,
-    });
-  } else {
-    await ffmpegObj.load({
-        coreURL: jsURL,
-        wasmURL: wasmURL,
-    });
-  }
+  await ffmpegObj.load({
+    coreURL: ffmpegConfig.coreURL,
+    wasmURL: ffmpegConfig.wasmURL,
+  });
 }
 
 // FFmpeg instance
