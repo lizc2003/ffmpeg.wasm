@@ -12,10 +12,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ffmpeg/core": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.5.0/ffmpeg-core.tgz",
-    "@ffmpeg/ffmpeg": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.5.0/ffmpeg-ffmpeg.tgz",
-    "@ffmpeg/types": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.5.0/ffmpeg-types.tgz",
-    "@ffmpeg/util": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.5.0/ffmpeg-util.tgz",
+    "@ffmpeg/core": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.6.0/ffmpeg-core.tgz",
+    "@ffmpeg/ffmpeg": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.6.0/ffmpeg-ffmpeg.tgz",
+    "@ffmpeg/types": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.6.0/ffmpeg-types.tgz",
+    "@ffmpeg/util": "https://github.com/lizc2003/ffmpeg.wasm/releases/download/v0.6.0/ffmpeg-util.tgz",
     "vue": "^3.5.26"
   },
   "devDependencies": {

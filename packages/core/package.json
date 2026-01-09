@@ -11,7 +11,11 @@
     "./wasm": {
       "import": "./dist/esm/ffmpeg-core.wasm",
       "require": "./dist/umd/ffmpeg-core.wasm"
-    }
+    },
+    "./dist/esm/ffmpeg-core.js": "./dist/esm/ffmpeg-core.js",
+    "./dist/esm/ffmpeg-core.wasm": "./dist/esm/ffmpeg-core.wasm",
+    "./dist/umd/ffmpeg-core.js": "./dist/umd/ffmpeg-core.js",
+    "./dist/umd/ffmpeg-core.wasm": "./dist/umd/ffmpeg-core.wasm"
   },
   "files": [
     "dist"
