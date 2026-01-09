@@ -15,7 +15,13 @@
     "./worker": {
       "import": "./dist/esm/ffmpeg-core.worker.js",
       "require": "./dist/umd/ffmpeg-core.worker.js"
-    }
+    },
+    "./dist/esm/ffmpeg-core.js": "./dist/esm/ffmpeg-core.js",
+    "./dist/esm/ffmpeg-core.wasm": "./dist/esm/ffmpeg-core.wasm",
+    "./dist/esm/ffmpeg-core.worker.js": "./dist/esm/ffmpeg-core.worker.js",
+    "./dist/umd/ffmpeg-core.js": "./dist/umd/ffmpeg-core.js",
+    "./dist/umd/ffmpeg-core.wasm": "./dist/umd/ffmpeg-core.wasm",
+    "./dist/umd/ffmpeg-core.worker.js": "./dist/umd/ffmpeg-core.worker.js"
   },
   "files": [
     "dist"
